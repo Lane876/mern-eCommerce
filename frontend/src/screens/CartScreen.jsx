@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Row,
   Col,
@@ -10,9 +10,8 @@ import {
   Button,
   Card,
 } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import { addToCart } from "../actions/cartActions";
 import Message from "../components/Message";
+import { addToCart, removeFromCart } from "../actions/cartActions";
 
 const CartScreen = ({ match, location, history }) => {
   const productId = match.params.id;
@@ -31,9 +30,10 @@ const CartScreen = ({ match, location, history }) => {
   }, [dispatch, productId, qty]);
 
   const removeFromCartHandler = (id) => {
-    console.log("remove");
+    dispatch(removeFromCart(id));
   };
-  const checkoutHendler = () => {
+
+  const checkoutHandler = () => {
     history.push("/login?redirect=shipping");
   };
 
@@ -43,7 +43,7 @@ const CartScreen = ({ match, location, history }) => {
         <h1>Shopping Cart</h1>
         {cartItems.length === 0 ? (
           <Message>
-            Your cart is empty <Link to="/">Go back</Link>{" "}
+            Your cart is empty <Link to="/">Go Back</Link>
           </Message>
         ) : (
           <ListGroup variant="flush">
@@ -77,8 +77,8 @@ const CartScreen = ({ match, location, history }) => {
                   <Col md={2}>
                     <Button
                       type="button"
-                      variant="dark"
-                      onClick={removeFromCartHandler(item.product)}
+                      variant="light"
+                      onClick={() => removeFromCartHandler(item.product)}
                     >
                       <i className="fas fa-trash"></i>
                     </Button>
@@ -107,9 +107,9 @@ const CartScreen = ({ match, location, history }) => {
                 type="button"
                 className="btn-block"
                 disabled={cartItems.length === 0}
-                onClick={checkoutHendler}
+                onClick={checkoutHandler}
               >
-                Proceed to checkout
+                Proceed To Checkout
               </Button>
             </ListGroup.Item>
           </ListGroup>
