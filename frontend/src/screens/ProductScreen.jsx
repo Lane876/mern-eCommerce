@@ -11,7 +11,10 @@ import {
   Form,
 } from "react-bootstrap";
 import Rating from "../components/Rating";
-import { listProductDetails } from "../actions/productActions";
+import {
+  listProductDetails,
+  createProductReview,
+} from "../actions/productActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { useState } from "react";
@@ -19,6 +22,7 @@ import { useState } from "react";
 const ProductScreen = ({ match, history }) => {
   const [qty, setQty] = useState(1);
   const dispatch = useDispatch();
+
   const productDetails = useSelector((state) => state.productDetails);
   const { error, loading, product } = productDetails;
 
